@@ -74,6 +74,11 @@ Route::group(['middleware' => ['auth']], function() {
     Route::get('messages', [MessageController::class, 'index'])->name('messages');
     Route::delete('messages-delete/{id}', [MessageController::class, 'destroy'])->name('messages.delete');
 
+//
+Route::get('/check-username-availability/{username}', [UserController::class, 'checkUsernameAvailability']);
+
+// Route::get('/check-username-availability/{username}', 'UserController@checkUsernameAvailability');
+
 
 
     

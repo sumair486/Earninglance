@@ -106,8 +106,21 @@
                     </div>
                     <div class="col-lg-6">
                         <fieldset>
+                            <label for="last_name" class="col-form-label">{{ __('Last Name') }}</label>
+                            <input id="last_name" placeholder="Last Name"  type="text" class="form-control @error('name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required autocomplete="last_name" required autofocus>
+                            @error('last_name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </fieldset>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <fieldset>
                             <label for="username" class="col-form-label">{{ __('Username') }}</label>
                             <input id="username" placeholder="Username"  type="text" class="form-control @error('username') is-invalid @enderror" name="username" value="{{ old('username') }}" required autocomplete="username">
+                            {{-- <span id="username-availability"></span> --}}
                             @error('username')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -115,7 +128,7 @@
                             @enderror
                         </fieldset>
                     </div>
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <fieldset>
                             <label for="email" class="col-form-label">{{ __('Email Address') }}</label>
                             <input id="email" placeholder="Email"  type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
@@ -220,6 +233,29 @@
   <script src="{{ asset('frontend/assets/js/animation.js')}}"></script>
   <script src="{{ asset('frontend/assets/js/imagesloaded.js')}}"></script>
   <script src="{{ asset('frontend/assets/js/templatemo-custom.js')}}"></script>
+
+
+  {{-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> --}}
+<script>
+    $(document).ready(function() {
+        $('#username').on('input', function() {
+            let username = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '/check-username-availability/' + username,
+                success: function(response) {
+                    if (response.available) {
+                       
+                        $('#username-availability').html('<span style="color:green">&#10004; Available</span>');
+                    } else {
+                        $('#username-availability').html('<span style="color:red">&#10008; Username not available</span>');
+                    }
+                }
+            });
+        });
+    });
+</script>
+
 
 <!-- Mirrored from earninglance.com/register.php by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 21 Aug 2023 08:36:44 GMT -->
 </html>

@@ -60,13 +60,17 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+
+            'username' => ['required', 'string', 'max:255','unique:users','regex:/^[a-zA-Z0-9]+$/',],
             'phone' => ['required', 'string', 'max:255'],
-          
-            
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+            'password' => ['required', 'string', 'min:8', 'confirmed',
+             'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/'
+             
+        ],
+
+    ]);
     }
 
     /**
@@ -84,6 +88,8 @@ class RegisterController extends Controller
             if (count($userData) > 0) {
                 $user = User::create([
                     'name' => $data['name'],
+                    'last_name' => $data['last_name'],
+
                     'username' => $data['username'],
                     'email' => $data['email'],
                     'phone' => $data['phone'],
@@ -107,6 +113,7 @@ class RegisterController extends Controller
         } else {
             $user = User::create([
                 'name' => $data['name'],
+                'last_name' => $data['last_name'],
                 'username' => $data['username'],
                 'email' => $data['email'],
                 'phone' => $data['phone'],

@@ -246,5 +246,19 @@ public function user_update(Request $request)
 
     return redirect()->route('dashboard')->with('success', 'Profile updated successfully!');
 }
+
+public function checkUsernameAvailability($username)
+{
+    
+    // Check if the username exists in the database
+    $user = User::where('username', $username)->first();
+
+    if ($user) {
+        return response()->json(['available' => false]);
+    } else {
+        return response()->json(['available' => true]);
+    }
+}
+
     
 }
